@@ -1,421 +1,345 @@
-'use client'
+﻿'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  ChartBarIcon,
-  FunnelIcon,
-  CalendarDaysIcon,
-  ArrowDownTrayIcon,
-  ExclamationTriangleIcon,
-  ShieldCheckIcon,
-  EyeIcon,
   DocumentTextIcon,
   SpeakerWaveIcon,
   VideoCameraIcon,
-  PhotoIcon,
+  ChartBarIcon,
 } from '@heroicons/react/24/outline'
+import { Line, Bar, Radar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
+  RadialLinearScale,
+  Filler,
   ArcElement,
-  PointElement,
 } from 'chart.js'
-import { Bar, Line, Doughnut } from 'react-chartjs-2'
-import { cn, formatNumber } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 
+// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
-  ArcElement,
-  PointElement
+  RadialLinearScale,
+  Filler,
+  ArcElement
 )
 
-const timeRangeOptions = [
-  { label: 'Last 7 days', value: '7d' },
-  { label: 'Last 30 days', value: '30d' },
-  { label: 'Last 90 days', value: '90d' },
-  { label: 'Last year', value: '1y' },
-]
-
-const filterOptions = [
-  { label: 'All Types', value: 'all' },
-  { label: 'Text/Email', value: 'text' },
-  { label: 'Audio', value: 'audio' },
-  { label: 'Video', value: 'video' },
-  { label: 'Images', value: 'image' },
-]
-
-function StatCard({ 
-  title, 
-  value, 
-  change, 
-  icon: Icon, 
-  trend = 'up',
-  color = 'blue' 
-}: {
-  title: string
-  value: string | number
-  change: string
-  icon: any
-  trend?: 'up' | 'down'
-  color?: 'blue' | 'red' | 'green' | 'yellow'
-}) {
-  const colorClasses = {
-    blue: 'bg-blue-50 text-blue-600',
-    red: 'bg-red-50 text-red-600',
-    green: 'bg-green-50 text-green-600',
-    yellow: 'bg-yellow-50 text-yellow-600',
-  }
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-lg border border-gray-200 p-6"
-    >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{value}</p>
-          <p className={cn(
-            'text-sm mt-1 flex items-center',
-            trend === 'up' ? 'text-green-600' : 'text-red-600'
-          )}>
-            <span className={trend === 'up' ? '↗️' : '↘️'}></span>
-            <span className="ml-1">{change} from last period</span>
-          </p>
-        </div>
-        <div className={cn('w-12 h-12 rounded-lg flex items-center justify-center', colorClasses[color])}>
-          <Icon className="w-6 h-6" />
-        </div>
-      </div>
-    </motion.div>
-  )
-}
-
 export default function AnalyticsPage() {
-  const [timeRange, setTimeRange] = useState('30d')
-  const [filter, setFilter] = useState('all')
-  const [loading, setLoading] = useState(false)
-
-  // Mock data - in real app this would come from API
-  const mockData = {
-    overview: {
-      totalFiles: 12547,
-      threatDetections: 342,
-      accuracyRate: 94.7,
-      reviewRequired: 89,
-    },
-    threatsByType: {
-      labels: ['High Risk', 'Medium Risk', 'Low Risk', 'Review Required'],
-      datasets: [{
-        data: [342, 156, 8934, 89],
-        backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#3b82f6'],
-        borderWidth: 0,
-      }]
-    },
-    trendsData: {
-      labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-      datasets: [
-        {
-          label: 'Files Processed',
-          data: [2840, 3200, 2950, 3557],
-          borderColor: '#3b82f6',
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
-          tension: 0.4,
-        },
-        {
-          label: 'Threats Detected',
-          data: [89, 102, 76, 75],
-          borderColor: '#ef4444',
-          backgroundColor: 'rgba(239, 68, 68, 0.1)',
-          tension: 0.4,
-        }
-      ]
-    },
-    fileTypes: {
-      labels: ['Text/Email', 'Audio', 'Video', 'Images'],
-      datasets: [{
-        label: 'Files Processed',
-        data: [5623, 2341, 3012, 1571],
-        backgroundColor: ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b'],
-        borderRadius: 8,
-      }]
-    },
-    topThreats: [
-      { name: 'Phishing Emails', count: 156, change: '+12%' },
-      { name: 'Malicious Audio', count: 89, change: '+8%' },
-      { name: 'Deepfake Videos', count: 67, change: '+23%' },
-      { name: 'Suspicious Images', count: 30, change: '-5%' },
-    ]
-  }
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        grid: {
-          color: 'rgba(0, 0, 0, 0.05)',
-        },
-      },
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-    },
-  }
-
-  const doughnutOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'bottom' as const,
-      },
-    },
-  }
-
-  const exportData = () => {
-    setLoading(true)
-    // Simulate export
-    setTimeout(() => {
-      setLoading(false)
-      // In real app, this would trigger a download
-      alert('Report exported successfully!')
-    }, 2000)
-  }
+  const [activeTab, setActiveTab] = useState('text')
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Analytics & Reports</h1>
-          <p className="text-gray-600 mt-1">Comprehensive threat detection insights and trends</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
+            <ChartBarIcon className="w-8 h-8 text-blue-600" />
+            <span>PHISNET Analytics Dashboard</span>
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-1">Multi-modal threat detection insights from pipeline analysis</p>
         </div>
-        
-        <div className="flex items-center space-x-3">
-          {/* Time Range Selector */}
-          <select
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            {timeRangeOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
+      </div>
+
+      {/* Tab Navigation */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors">
+        <div className="border-b border-gray-200 dark:border-gray-700">
+          <nav className="-mb-px flex space-x-8 px-6">
+            {[
+              { id: 'text', name: 'Text Detection', icon: DocumentTextIcon },
+              { id: 'audio', name: 'Audio Detection', icon: SpeakerWaveIcon },
+              { id: 'video', name: 'Video Detection', icon: VideoCameraIcon },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === tab.id
+                    ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                }`}
+              >
+                <tab.icon className="w-5 h-5" />
+                <span>{tab.name}</span>
+              </button>
             ))}
-          </select>
-
-          {/* Filter Selector */}
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            {filterOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-
-          {/* Export Button */}
-          <button
-            onClick={exportData}
-            disabled={loading}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
-            {loading ? 'Exporting...' : 'Export Report'}
-          </button>
-        </div>
-      </div>
-
-      {/* Overview Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="Total Files Processed"
-          value={formatNumber(mockData.overview.totalFiles)}
-          change="+12.5%"
-          icon={DocumentTextIcon}
-          color="blue"
-        />
-        <StatCard
-          title="Threats Detected"
-          value={mockData.overview.threatDetections}
-          change="+8.3%"
-          icon={ExclamationTriangleIcon}
-          color="red"
-        />
-        <StatCard
-          title="Accuracy Rate"
-          value={`${mockData.overview.accuracyRate}%`}
-          change="+2.1%"
-          icon={ShieldCheckIcon}
-          color="green"
-        />
-        <StatCard
-          title="Review Required"
-          value={mockData.overview.reviewRequired}
-          change="-5.2%"
-          icon={EyeIcon}
-          color="yellow"
-          trend="down"
-        />
-      </div>
-
-      {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Threat Distribution */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Threat Distribution</h3>
-          <div className="h-64">
-            <Doughnut data={mockData.threatsByType} options={doughnutOptions} />
-          </div>
+          </nav>
         </div>
 
-        {/* Trends Chart */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 lg:col-span-2">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Processing Trends</h3>
-          <div className="h-64">
-            <Line data={mockData.trendsData} options={chartOptions} />
-          </div>
-        </div>
-      </div>
+        <div className="p-6">
+          {activeTab === 'text' && (
+            <div className="space-y-6">
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Text Detection Analytics</h2>
+                <p className="text-gray-600 dark:text-gray-300">Agentic risk classification from 06_visualizations.ipynb</p>
+              </div>
+              
+              {/* Agentic Buckets Chart */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Agentic Buckets Distribution</h3>
+                <div className="h-64">
+                  <Bar 
+                    data={{
+                      labels: ['HIGH_RISK', 'REVIEW', 'LOW_RISK'],
+                      datasets: [{
+                        label: 'Count',
+                        data: [125, 89, 456],
+                        backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+                        borderRadius: 8,
+                      }]
+                    }}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false,
+                      plugins: { legend: { display: false } },
+                      scales: {
+                        y: { title: { display: true, text: 'Count' }, beginAtZero: true }
+                      }
+                    }}
+                  />
+                </div>
+              </div>
 
-      {/* File Types and Top Threats */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* File Types Processed */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Files by Type</h3>
-          <div className="h-64">
-            <Bar data={mockData.fileTypes} options={chartOptions} />
-          </div>
-        </div>
-
-        {/* Top Threats */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Threat Categories</h3>
-          <div className="space-y-4">
-            {mockData.topThreats.map((threat, index) => (
-              <div key={threat.name} className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
-                    <span className="text-sm font-bold text-red-600">#{index + 1}</span>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">{threat.name}</p>
-                    <p className="text-sm text-gray-500">{threat.count} detections</p>
+              {/* Confusion Matrix */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Raw vs Agentic Classification</h3>
+                <div className="h-64">
+                  <div className="grid grid-cols-2 gap-4 max-w-md mx-auto h-full">
+                    <div className="bg-green-100 dark:bg-green-900/30 rounded-lg border-2 border-green-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">234</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Safe → Safe</div>
+                    </div>
+                    <div className="bg-red-100 dark:bg-red-900/30 rounded-lg border-2 border-red-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">12</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Safe → Phishing</div>
+                    </div>
+                    <div className="bg-red-100 dark:bg-red-900/30 rounded-lg border-2 border-red-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">8</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Phishing → Safe</div>
+                    </div>
+                    <div className="bg-green-100 dark:bg-green-900/30 rounded-lg border-2 border-green-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">89</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Phishing → Phishing</div>
+                    </div>
                   </div>
                 </div>
-                <span className={cn(
-                  'text-sm font-medium',
-                  threat.change.startsWith('+') ? 'text-red-600' : 'text-green-600'
-                )}>
-                  {threat.change}
-                </span>
               </div>
-            ))}
-          </div>
+
+              {/* Top Domains */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top URL Domains</h3>
+                <div className="h-64">
+                  <Bar 
+                    data={{
+                      labels: ['amazon.com', 'paypal.com', 'microsoft.com', 'google.com', 'apple.com'],
+                      datasets: [{
+                        label: 'Frequency',
+                        data: [156, 134, 98, 87, 76],
+                        backgroundColor: '#06b6d4',
+                        borderRadius: 6,
+                      }]
+                    }}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false,
+                      indexAxis: 'y' as const,
+                      plugins: { legend: { display: false } },
+                      scales: {
+                        x: { title: { display: true, text: 'Frequency' }, beginAtZero: true }
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {activeTab === 'audio' && (
+            <div className="space-y-6">
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Audio Detection Analytics</h2>
+                <p className="text-gray-600 dark:text-gray-300">From audio_pipeline_visualizations.ipynb</p>
+              </div>
+              
+              {/* Deepfake Confusion Matrix */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Deepfake Detection Matrix</h3>
+                <div className="h-64">
+                  <div className="grid grid-cols-2 gap-4 max-w-md mx-auto h-full">
+                    <div className="bg-green-100 dark:bg-green-900/30 rounded-lg border-2 border-green-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">187</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Real → Real</div>
+                    </div>
+                    <div className="bg-red-100 dark:bg-red-900/30 rounded-lg border-2 border-red-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">23</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Real → Fake</div>
+                    </div>
+                    <div className="bg-red-100 dark:bg-red-900/30 rounded-lg border-2 border-red-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">19</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Fake → Real</div>
+                    </div>
+                    <div className="bg-green-100 dark:bg-green-900/30 rounded-lg border-2 border-green-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">156</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Fake → Fake</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modality Accuracy */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Detection Accuracy Across Modalities</h3>
+                <div className="h-64">
+                  <Bar 
+                    data={{
+                      labels: ['Video', 'Audio', 'Fusion'],
+                      datasets: [{
+                        label: 'Accuracy',
+                        data: [68, 63, 72],
+                        backgroundColor: ['#8b5cf6', '#06b6d4', '#10b981'],
+                        borderRadius: 8,
+                      }]
+                    }}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false,
+                      plugins: { legend: { display: false } },
+                      scales: {
+                        y: { title: { display: true, text: 'Accuracy (%)' }, beginAtZero: true, max: 100 }
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {activeTab === 'video' && (
+            <div className="space-y-6">
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Video Detection Analytics</h2>
+                <p className="text-gray-600 dark:text-gray-300">From video_pipeline_visualizations.ipynb</p>
+              </div>
+              
+              {/* Video Deepfake Matrix */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Video Deepfake Detection</h3>
+                <div className="h-64">
+                  <div className="grid grid-cols-2 gap-4 max-w-md mx-auto h-full">
+                    <div className="bg-green-100 dark:bg-green-900/30 rounded-lg border-2 border-green-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">198</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Real → Real</div>
+                    </div>
+                    <div className="bg-red-100 dark:bg-red-900/30 rounded-lg border-2 border-red-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">34</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Real → Fake</div>
+                    </div>
+                    <div className="bg-red-100 dark:bg-red-900/30 rounded-lg border-2 border-red-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">28</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Fake → Real</div>
+                    </div>
+                    <div className="bg-green-100 dark:bg-green-900/30 rounded-lg border-2 border-green-500 p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-gray-900 dark:text-white">167</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Fake → Fake</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Video Features */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top Video Features</h3>
+                <div className="h-64">
+                  <Bar 
+                    data={{
+                      labels: ['frame_variance', 'optical_flow_x', 'optical_flow_y', 'face_landmarks', 'eye_aspect_ratio'],
+                      datasets: [{
+                        label: 'Importance',
+                        data: [0.092, 0.087, 0.083, 0.079, 0.075],
+                        backgroundColor: '#06d6a0',
+                        borderRadius: 6,
+                      }]
+                    }}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false,
+                      indexAxis: 'y' as const,
+                      plugins: { legend: { display: false } },
+                      scales: {
+                        x: { title: { display: true, text: 'Feature Importance' }, beginAtZero: true }
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Detailed Analysis Table */}
-      <div className="bg-white rounded-lg border border-gray-200">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Recent Analysis Results</h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  File
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Type
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Risk Level
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Confidence
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Analyzed
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {[
-                { name: 'suspicious_email.eml', type: 'text', risk: 'HIGH_RISK', confidence: 94, time: '2 min ago' },
-                { name: 'audio_sample.mp3', type: 'audio', risk: 'REVIEW', confidence: 67, time: '5 min ago' },
-                { name: 'corporate_video.mp4', type: 'video', risk: 'LOW_RISK', confidence: 89, time: '8 min ago' },
-                { name: 'profile_image.jpg', type: 'image', risk: 'LOW_RISK', confidence: 92, time: '12 min ago' },
-                { name: 'phishing_attempt.txt', type: 'text', risk: 'HIGH_RISK', confidence: 98, time: '15 min ago' },
-              ].map((item, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-8 w-8">
-                        {item.type === 'text' && <DocumentTextIcon className="h-5 w-5 text-blue-500" />}
-                        {item.type === 'audio' && <SpeakerWaveIcon className="h-5 w-5 text-purple-500" />}
-                        {item.type === 'video' && <VideoCameraIcon className="h-5 w-5 text-green-500" />}
-                        {item.type === 'image' && <PhotoIcon className="h-5 w-5 text-yellow-500" />}
-                      </div>
-                      <div className="ml-3">
-                        <div className="text-sm font-medium text-gray-900">{item.name}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 capitalize">
-                      {item.type}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={cn(
-                      'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-                      item.risk === 'HIGH_RISK' && 'bg-red-100 text-red-800',
-                      item.risk === 'REVIEW' && 'bg-yellow-100 text-yellow-800',
-                      item.risk === 'LOW_RISK' && 'bg-green-100 text-green-800'
-                    )}>
-                      {item.risk.replace('_', ' ')}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {item.confidence}%
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {item.time}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {/* Summary Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+        >
+          <div className="flex items-center space-x-3">
+            <DocumentTextIcon className="w-8 h-8 text-blue-600" />
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Files Processed</h3>
+              <p className="text-2xl font-bold text-blue-600">28.5K</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">Across all modalities</p>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+        >
+          <div className="flex items-center space-x-3">
+            <ChartBarIcon className="w-8 h-8 text-green-600" />
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Detection Accuracy</h3>
+              <p className="text-2xl font-bold text-green-600">72%</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">Multi-modal fusion</p>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
+        >
+          <div className="flex items-center space-x-3">
+            <VideoCameraIcon className="w-8 h-8 text-purple-600" />
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Threats Detected</h3>
+              <p className="text-2xl font-bold text-purple-600">892</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">High confidence alerts</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   )

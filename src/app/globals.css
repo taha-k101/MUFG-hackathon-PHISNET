@@ -90,6 +90,14 @@ h4 {
   background: linear-gradient(135deg, rgb(239 246 255), rgb(238 242 255), rgb(250 245 255));
 }
 
+.dark .gradient-bg {
+  background: linear-gradient(135deg, rgb(17 24 39), rgb(31 41 55), rgb(55 48 163));
+}
+
+.gradient-bg-dark {
+  background: linear-gradient(135deg, rgb(17 24 39), rgb(31 41 55), rgb(55 48 163));
+}
+
 .glass-effect {
   backdrop-filter: blur(8px);
   background-color: rgba(255, 255, 255, 0.7);
@@ -97,9 +105,20 @@ h4 {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
+.dark .glass-effect {
+  background-color: rgba(31, 41, 55, 0.7);
+  border: 1px solid rgba(75, 85, 99, 0.2);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
 .cyber-border {
   border: 1px solid rgb(196 221 253);
   box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
+}
+
+.dark .cyber-border {
+  border: 1px solid rgb(75 85 99);
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2);
 }
 
 .animate-pulse-subtle {

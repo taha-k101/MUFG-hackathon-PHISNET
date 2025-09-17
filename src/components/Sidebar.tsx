@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -37,6 +37,15 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
 
   return (
     <>
@@ -54,20 +63,18 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
       </AnimatePresence>
 
       {/* Sidebar */}
-      <motion.div
-        initial={false}
-        animate={{
-          x: isOpen ? 0 : -300,
-          opacity: isOpen ? 1 : 0.8,
-        }}
+      <div
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl border-r border-gray-200",
-          "lg:relative lg:opacity-100 lg:translate-x-0 lg:shadow-none",
-          "flex flex-col overflow-hidden"
+          "w-72 bg-white dark:bg-gray-800 shadow-xl border-r border-gray-200 dark:border-gray-700 flex flex-col overflow-hidden transition-colors duration-200",
+          "lg:relative lg:shadow-none",
+          // Mobile: fixed positioning with conditional visibility
+          "fixed inset-y-0 left-0 z-50 lg:z-0",
+          "transition-transform duration-300 ease-in-out",
+          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-600 to-indigo-600">
+        <div className="flex items-center justify-between p-6 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
               <ShieldCheckIcon className="w-6 h-6 text-white" />
@@ -96,29 +103,31 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 href={item.href}
                 className={cn(
                   "group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200",
-                  "hover:bg-gray-50 hover:scale-[1.02] hover:shadow-sm",
+                  "hover:bg-gray-50 dark:hover:bg-gray-700 hover:scale-[1.02] hover:shadow-sm",
                   isActive
-                    ? "bg-blue-50 text-blue-700 border border-blue-200 shadow-sm"
-                    : "text-gray-700 hover:text-gray-900"
+                    ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700 shadow-sm"
+                    : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                 )}
                 onClick={() => setIsOpen(false)}
               >
                 <item.icon
                   className={cn(
                     "w-5 h-5 mr-3 transition-colors",
-                    isActive ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600"
+                    isActive 
+                      ? "text-blue-600 dark:text-blue-400" 
+                      : "text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300"
                   )}
                 />
                 <div className="flex-1">
                   <div className="font-medium">{item.name}</div>
-                  <div className="text-xs text-gray-500 mt-0.5 group-hover:text-gray-600">
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 group-hover:text-gray-600 dark:group-hover:text-gray-300">
                     {item.description}
                   </div>
                 </div>
                 {isActive && (
                   <motion.div
                     layoutId="activeIndicator"
-                    className="w-2 h-2 bg-blue-500 rounded-full"
+                    className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full"
                     initial={false}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
@@ -129,18 +138,18 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         </nav>
 
         {/* Footer */}
-        <div className="px-4 py-4 border-t border-gray-200 bg-gray-50">
-          <div className="flex items-center space-x-3 px-4 py-3 bg-white rounded-lg border">
-            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+        <div className="px-4 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+          <div className="flex items-center space-x-3 px-4 py-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+            <div className="w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse-subtle"></div>
             </div>
             <div className="flex-1">
-              <div className="text-sm font-medium text-gray-900">System Active</div>
-              <div className="text-xs text-gray-500">All services operational</div>
+              <div className="text-sm font-medium text-gray-900 dark:text-white">System Active</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">All services operational</div>
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </>
   )
 }

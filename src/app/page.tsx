@@ -146,10 +146,16 @@ function ThreatActivityFeed({ activities }: { activities: any[] }) {
 export default function Dashboard() {
   const [data, setData] = useState(generateMockData())
   const [isLive, setIsLive] = useState(true)
+  const [mounted, setMounted] = useState(false)
 
-  // Simulate real-time updates
+  // Ensure component is mounted before rendering dynamic content
   useEffect(() => {
-    if (!isLive) return
+    setMounted(true)
+  }, [])
+
+  // Simulate real-time updates only after mounting
+  useEffect(() => {
+    if (!isLive || !mounted) return
 
     const interval = setInterval(() => {
       setData(prevData => ({
@@ -166,7 +172,21 @@ export default function Dashboard() {
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [isLive])
+  }, [isLive, mounted])
+
+  // Don't render dynamic content until mounted to prevent hydration errors
+  if (!mounted) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Threat Detection Dashboard</h1>
+            <p className="text-gray-600 mt-1">Loading...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="p-6 space-y-6">
