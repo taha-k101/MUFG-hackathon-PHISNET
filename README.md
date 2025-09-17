@@ -1,4 +1,4 @@
-# 🚀 PHISNET - Multi-Modal Threat Detection System 🎣
+# 🌊 PHISNET - Multi-Modal Threat Detection System 🎣
 
 *"A Smart net that catches phishing across channels"*
 
