@@ -1,4 +1,4 @@
-# 🚀 PHISNET - Multi-Modal Threat Detection System
+# 🚀 PHISNET - Multi-Modal Threat Detection System 🎣
 
 *"A Smart net that catches phishing across channels"*
 
@@ -218,4 +218,3 @@ NEXT_PUBLIC_ANALYTICS_ID=your_analytics_id
 
 ---
 
-Would you like me to also create a **short executive summary paragraph** (2–3 sentences) that you can paste at the top of your README for the jury to immediately “get” your project?
