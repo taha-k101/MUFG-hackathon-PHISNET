@@ -102,20 +102,20 @@ MUFG-hackathon-PHISNET/
 ### Installation
 
 1. **Clone the repository:**
-   `ash
+   `bash
    git clone https://github.com/taha-k101/MUFG-hackathon-PHISNET.git
    cd MUFG-hackathon-PHISNET
    `
 
 2. **Install dependencies:**
-   `ash
+   `bash
    npm install
    # or
    yarn install
    `
 
 3. **Start the development server:**
-   `ash
+   `bash
    npm run dev
    # or
    yarn dev
@@ -126,7 +126,7 @@ MUFG-hackathon-PHISNET/
 
 ### Build for Production
 
-`ash
+`bash
 npm run build
 npm start
 `
