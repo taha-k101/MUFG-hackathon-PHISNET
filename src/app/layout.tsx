@@ -42,7 +42,7 @@ export default function RootLayout({
         <meta name="description" content="Advanced multi-modal threat detection system for MUFG" />
       </head>
       <body className={`${inter.className} bg-gray-50 dark:bg-gray-900 transition-colors duration-200`} suppressHydrationWarning={true}>
-        <ThemeProvider defaultTheme="light">
+        <ThemeProvider>
           <div className="flex h-screen overflow-hidden">
             {/* Sidebar */}
             {mounted && (

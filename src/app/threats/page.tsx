@@ -127,10 +127,10 @@ function ThreatCard({ threat }: { threat: any }) {
 
   const getModalityColor = (modality: string) => {
     switch (modality) {
-      case 'text': return 'bg-blue-100 text-blue-700'
-      case 'audio': return 'bg-purple-100 text-purple-700'
-      case 'video': return 'bg-green-100 text-green-700'
-      default: return 'bg-gray-100 text-gray-700'
+      case 'text': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+      case 'audio': return 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
+      case 'video': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+      default: return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
     }
   }
 
@@ -140,7 +140,7 @@ function ThreatCard({ threat }: { threat: any }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow"
+      className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow"
     >
       <div className="flex items-start justify-between">
         <div className="flex items-start space-x-4">
@@ -150,7 +150,7 @@ function ThreatCard({ threat }: { threat: any }) {
           
           <div className="flex-1">
             <div className="flex items-center space-x-3 mb-2">
-              <h3 className="text-lg font-semibold text-gray-900">{threat.title}</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{threat.title}</h3>
               <span className={cn(
                 "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border",
                 getRiskColor(threat.risk)
@@ -164,9 +164,9 @@ function ThreatCard({ threat }: { threat: any }) {
               )}
             </div>
             
-            <p className="text-gray-600 mb-3">{threat.description}</p>
+            <p className="text-gray-600 dark:text-gray-300 mb-3">{threat.description}</p>
             
-            <div className="flex items-center space-x-4 text-sm text-gray-500">
+            <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center space-x-1">
                 <ClockIcon className="w-4 h-4" />
                 <span>{threat.timestamp}</span>
@@ -184,7 +184,7 @@ function ThreatCard({ threat }: { threat: any }) {
         
         <button
           onClick={() => setExpanded(!expanded)}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
         >
           <ChevronDownIcon className={cn("w-5 h-5 transition-transform", expanded && "transform rotate-180")} />
         </button>
@@ -194,15 +194,15 @@ function ThreatCard({ threat }: { threat: any }) {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="mt-4 pt-4 border-t border-gray-100"
+          className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {threat.details.urls && (
               <div>
-                <h4 className="font-medium text-gray-900 mb-2">Suspicious URLs</h4>
+                <h4 className="font-medium text-gray-900 dark:text-white mb-2">Suspicious URLs</h4>
                 <ul className="space-y-1">
                   {threat.details.urls.map((url: string, index: number) => (
-                    <li key={index} className="text-sm text-red-600 font-mono bg-red-50 px-2 py-1 rounded">
+                    <li key={index} className="text-sm text-red-600 dark:text-red-400 font-mono bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded">
                       {url}
                     </li>
                   ))}
@@ -212,11 +212,11 @@ function ThreatCard({ threat }: { threat: any }) {
             
             {threat.details.indicators && (
               <div>
-                <h4 className="font-medium text-gray-900 mb-2">Threat Indicators</h4>
+                <h4 className="font-medium text-gray-900 dark:text-white mb-2">Threat Indicators</h4>
                 <ul className="space-y-1">
                   {threat.details.indicators.map((indicator: string, index: number) => (
-                    <li key={index} className="text-sm text-gray-600 flex items-center space-x-2">
-                      <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                    <li key={index} className="text-sm text-gray-600 dark:text-gray-300 flex items-center space-x-2">
+                      <span className="w-1.5 h-1.5 bg-yellow-500 dark:bg-yellow-400 rounded-full"></span>
                       <span>{indicator}</span>
                     </li>
                   ))}
@@ -226,8 +226,8 @@ function ThreatCard({ threat }: { threat: any }) {
             
             {threat.details.duration && (
               <div>
-                <h4 className="font-medium text-gray-900 mb-2">Media Duration</h4>
-                <p className="text-sm text-gray-600">{threat.details.duration}</p>
+                <h4 className="font-medium text-gray-900 dark:text-white mb-2">Media Duration</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{threat.details.duration}</p>
               </div>
             )}
           </div>
@@ -275,8 +275,8 @@ export default function ThreatsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Live Threat Detection</h1>
-          <p className="text-gray-600 mt-1">Real-time multi-modal threat analysis and management</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Live Threat Detection</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Real-time multi-modal threat analysis and management</p>
         </div>
         
         <div className="flex items-center space-x-3">
@@ -288,27 +288,27 @@ export default function ThreatsPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Search */}
           <div className="relative">
-            <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500" />
             <input
               type="text"
               placeholder="Search threats..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
           {/* Threat Type Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Threat Type</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Threat Type</label>
             <select
               value={selectedThreatType}
               onChange={(e) => setSelectedThreatType(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               {threatTypes.map(type => (
                 <option key={type.id} value={type.id}>
@@ -320,11 +320,11 @@ export default function ThreatsPage() {
 
           {/* Modality Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Modality</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Modality</label>
             <select
               value={selectedModality}
               onChange={(e) => setSelectedModality(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               {modalityFilters.map(filter => (
                 <option key={filter.id} value={filter.id}>
@@ -338,50 +338,50 @@ export default function ThreatsPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-              <ExclamationTriangleIcon className="w-6 h-6 text-red-600" />
+            <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+              <ExclamationTriangleIcon className="w-6 h-6 text-red-600 dark:text-red-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">High Risk</p>
-              <p className="text-2xl font-bold text-gray-900">23</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-300">High Risk</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">23</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <EyeIcon className="w-6 h-6 text-yellow-600" />
+            <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
+              <EyeIcon className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Under Review</p>
-              <p className="text-2xl font-bold text-gray-900">156</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Under Review</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">156</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <ShieldCheckIcon className="w-6 h-6 text-green-600" />
+            <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+              <ShieldCheckIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Blocked</p>
-              <p className="text-2xl font-bold text-gray-900">234</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Blocked</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">234</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <DocumentTextIcon className="w-6 h-6 text-blue-600" />
+            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+              <DocumentTextIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total Today</p>
-              <p className="text-2xl font-bold text-gray-900">1.2K</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Today</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">1.2K</p>
             </div>
           </div>
         </div>
@@ -390,7 +390,7 @@ export default function ThreatsPage() {
       {/* Threats List */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             Active Threats ({filteredThreats.length})
           </h2>
           <div className="flex items-center space-x-2">

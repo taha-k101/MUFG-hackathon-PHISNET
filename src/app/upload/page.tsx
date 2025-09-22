@@ -48,17 +48,17 @@ function FileCard({ file, onRemove }: { file: UploadedFile; onRemove: (id: strin
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      className="bg-white rounded-lg border border-gray-200 p-4 space-y-3"
+      className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 space-y-3"
     >
       <div className="flex items-start justify-between">
         <div className="flex items-center space-x-3">
           <div className={cn(
             "w-10 h-10 rounded-lg flex items-center justify-center",
-            file.type === 'text' && "bg-blue-100",
-            file.type === 'audio' && "bg-purple-100",
-            file.type === 'video' && "bg-green-100",
-            file.type === 'image' && "bg-yellow-100",
-            file.type === 'unknown' && "bg-gray-100"
+            file.type === 'text' && "bg-blue-100 dark:bg-blue-900/30",
+            file.type === 'audio' && "bg-purple-100 dark:bg-purple-900/30",
+            file.type === 'video' && "bg-green-100 dark:bg-green-900/30",
+            file.type === 'image' && "bg-yellow-100 dark:bg-yellow-900/30",
+            file.type === 'unknown' && "bg-gray-100 dark:bg-gray-800"
           )}>
             <FileTypeIcon 
               type={file.type} 
@@ -73,14 +73,14 @@ function FileCard({ file, onRemove }: { file: UploadedFile; onRemove: (id: strin
             />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">{file.file.name}</p>
-            <p className="text-xs text-gray-500">{formatBytes(file.file.size)} • {file.type}</p>
+            <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{file.file.name}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{formatBytes(file.file.size)} • {file.type}</p>
           </div>
         </div>
         
         <button
           onClick={() => onRemove(file.id)}
-          className="text-gray-400 hover:text-gray-600 transition-colors"
+          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
         >
           <XMarkIcon className="w-4 h-4" />
         </button>
@@ -90,16 +90,16 @@ function FileCard({ file, onRemove }: { file: UploadedFile; onRemove: (id: strin
       {file.status !== 'completed' && file.status !== 'error' && (
         <div className="space-y-2">
           <div className="flex justify-between text-xs">
-            <span className="text-gray-600">
+            <span className="text-gray-600 dark:text-gray-300">
               {file.status === 'uploading' ? 'Uploading...' : 'Analyzing...'}
             </span>
-            <span className="text-gray-600">{file.progress}%</span>
+            <span className="text-gray-600 dark:text-gray-300">{file.progress}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
             <motion.div
               className={cn(
                 "h-2 rounded-full transition-colors",
-                file.status === 'uploading' ? "bg-blue-500" : "bg-purple-500"
+                file.status === 'uploading' ? "bg-blue-500 dark:bg-blue-400" : "bg-purple-500 dark:bg-purple-400"
               )}
               style={{ width: `${file.progress}%` }}
               initial={{ width: 0 }}
@@ -111,11 +111,11 @@ function FileCard({ file, onRemove }: { file: UploadedFile; onRemove: (id: strin
 
       {/* Results */}
       {file.status === 'completed' && file.result && (
-        <div className="space-y-3 pt-2 border-t border-gray-100">
+        <div className="space-y-3 pt-2 border-t border-gray-100 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <CheckCircleIcon className="w-4 h-4 text-green-500" />
-              <span className="text-sm font-medium text-gray-900">Analysis Complete</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-white">Analysis Complete</span>
             </div>
             <span className={cn(
               "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border",
@@ -125,7 +125,7 @@ function FileCard({ file, onRemove }: { file: UploadedFile; onRemove: (id: strin
             </span>
           </div>
           
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-gray-600 dark:text-gray-300">
             <div className="flex justify-between mb-1">
               <span>Confidence:</span>
               <span className="font-medium">{file.result.confidence}%</span>
@@ -134,7 +134,7 @@ function FileCard({ file, onRemove }: { file: UploadedFile; onRemove: (id: strin
             
             {file.result.threats.length > 0 && (
               <div className="mt-2">
-                <p className="font-medium text-gray-700 mb-1">Detected Threats:</p>
+                <p className="font-medium text-gray-700 dark:text-gray-200 mb-1">Detected Threats:</p>
                 <ul className="list-disc list-inside text-xs space-y-1">
                   {file.result.threats.map((threat, index) => (
                     <li key={index}>{threat}</li>
@@ -149,7 +149,7 @@ function FileCard({ file, onRemove }: { file: UploadedFile; onRemove: (id: strin
       {file.status === 'error' && (
         <div className="flex items-center space-x-2 pt-2 border-t border-gray-100">
           <ExclamationTriangleIcon className="w-4 h-4 text-red-500" />
-          <span className="text-sm text-red-600">Analysis failed. Please try again.</span>
+          <span className="text-sm text-red-600 dark:text-red-400">Analysis failed. Please try again.</span>
         </div>
       )}
     </motion.div>
@@ -271,8 +271,8 @@ export default function UploadPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Upload & Classify</h1>
-          <p className="text-gray-600 mt-1">Multi-modal threat detection and analysis</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Upload & Classify</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Multi-modal threat detection and analysis</p>
         </div>
         
         {files.length > 0 && (
@@ -293,7 +293,7 @@ export default function UploadPage() {
             )}
             {stats.processing > 0 && (
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse-subtle"></div>
+                <div className="w-2 h-2 bg-yellow-500 dark:bg-yellow-400 rounded-full animate-pulse-subtle"></div>
                 <span>Processing: {stats.processing}</span>
               </div>
             )}
@@ -307,8 +307,8 @@ export default function UploadPage() {
         className={cn(
           "border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all",
           isDragActive 
-            ? "border-blue-500 bg-blue-50" 
-            : "border-gray-300 bg-white hover:border-gray-400 hover:bg-gray-50"
+            ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" 
+            : "border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-400 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
         )}
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.99 }}
@@ -316,23 +316,23 @@ export default function UploadPage() {
         <input {...getInputProps()} />
         <CloudArrowUpIcon className={cn(
           "mx-auto h-12 w-12 mb-4",
-          isDragActive ? "text-blue-500" : "text-gray-400"
+          isDragActive ? "text-blue-500" : "text-gray-400 dark:text-gray-500"
         )} />
         
         {isDragActive ? (
           <div>
-            <p className="text-lg font-medium text-blue-600">Drop files here to analyze</p>
-            <p className="text-sm text-blue-500 mt-1">Multi-modal threat detection ready</p>
+            <p className="text-lg font-medium text-blue-600 dark:text-blue-400">Drop files here to analyze</p>
+            <p className="text-sm text-blue-500 dark:text-blue-400/80 mt-1">Multi-modal threat detection ready</p>
           </div>
         ) : (
           <div>
-            <p className="text-lg font-medium text-gray-900">
-              Drag & drop files here, or <span className="text-blue-600">browse</span>
+            <p className="text-lg font-medium text-gray-900 dark:text-white">
+              Drag & drop files here, or <span className="text-blue-600 dark:text-blue-400">browse</span>
             </p>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
               Supports: Text/Email (.txt, .eml), Audio (.mp3, .wav), Video (.mp4, .mov), Images (.jpg, .png)
             </p>
-            <p className="text-xs text-gray-400 mt-1">Maximum file size: 100MB</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Maximum file size: 100MB</p>
           </div>
         )}
       </motion.div>
@@ -347,7 +347,7 @@ export default function UploadPage() {
             {files.length > 0 && (
               <button
                 onClick={() => setFiles([])}
-                className="text-sm text-red-600 hover:text-red-700 font-medium"
+                className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium"
               >
                 Clear All
               </button>
@@ -366,23 +366,23 @@ export default function UploadPage() {
 
       {/* Empty State */}
       {files.length === 0 && (
-        <div className="text-center py-12">
+          <div className="text-center py-12">
           <div className="max-w-md mx-auto">
             <div className="flex justify-center space-x-4 mb-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <DocumentTextIcon className="w-6 h-6 text-blue-600" />
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <DocumentTextIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <SpeakerWaveIcon className="w-6 h-6 text-purple-600" />
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                  <SpeakerWaveIcon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <VideoCameraIcon className="w-6 h-6 text-green-600" />
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                  <VideoCameraIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
               </div>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
               Multi-Modal Threat Detection
             </h3>
-            <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-300">
               Upload text files, emails, audio recordings, or videos to analyze for potential threats using our advanced AI models.
             </p>
           </div>

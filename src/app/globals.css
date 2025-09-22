@@ -125,6 +125,99 @@ h4 {
   animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* --- Cybersecurity palette (Tailwind v4 @theme tokens) --- */
+@theme {
+  /* role ramps */
+  --color-redTeam-50: #FEF2F2; --color-redTeam-100: #FDE6E6; --color-redTeam-200: #F8C9C9; --color-redTeam-300: #EE9D9D; --color-redTeam-400: #E07272; --color-redTeam-500: #DC3D3D; --color-redTeam-600: #C43131; --color-redTeam-700: #A32828; --color-redTeam-800: #7F2020; --color-redTeam-900: #5B1919;
+  --color-blueTeam-50: #EFF5FF; --color-blueTeam-100: #DFE9FE; --color-blueTeam-200: #BBD1FC; --color-blueTeam-300: #92B5F7; --color-blueTeam-400: #6A95F0; --color-blueTeam-500: #4E7EE4; --color-blueTeam-600: #3F66C4; --color-blueTeam-700: #3552A3; --color-blueTeam-800: #2C417F; --color-blueTeam-900: #233363;
+  --color-purpleTeam-50: #F5F2FF; --color-purpleTeam-100: #E9E2FE; --color-purpleTeam-200: #CEC3FB; --color-purpleTeam-300: #B1A0F6; --color-purpleTeam-400: #947EEB; --color-purpleTeam-500: #6F5BD7; --color-purpleTeam-600: #5947BA; --color-purpleTeam-700: #453794; --color-purpleTeam-800: #362C73; --color-purpleTeam-900: #282157;
+  --color-yellowDev-50: #FFFBEB; --color-yellowDev-100: #FEF3C7; --color-yellowDev-200: #FDE68A; --color-yellowDev-300: #FACC58; --color-yellowDev-400: #E8B534; --color-yellowDev-500: #D4A21A; --color-yellowDev-600: #B38713; --color-yellowDev-700: #8F6C0E; --color-yellowDev-800: #6F540A; --color-yellowDev-900: #533F08;
+  --color-greenSec-50: #F0FDF4; --color-greenSec-100: #DCFCE7; --color-greenSec-200: #BAF2CF; --color-greenSec-300: #8DE5B1; --color-greenSec-400: #54CF8C; --color-greenSec-500: #199A5B; --color-greenSec-600: #13824C; --color-greenSec-700: #106A3F; --color-greenSec-800: #0D5332; --color-greenSec-900: #0A3E26;
+  --color-orangeTrain-50: #FFF7ED; --color-orangeTrain-100: #FFEDD5; --color-orangeTrain-200: #FED7AA; --color-orangeTrain-300: #FDBA74; --color-orangeTrain-400: #F39B4C; --color-orangeTrain-500: #E26D2A; --color-orangeTrain-600: #C45A22; --color-orangeTrain-700: #A1491B; --color-orangeTrain-800: #7E3815; --color-orangeTrain-900: #5E2A10;
+  --color-whiteGov-50: #FFFFFF; --color-whiteGov-100: #FAFBFC; --color-whiteGov-200: #F1F5F9; --color-whiteGov-300: #E2E8F0; --color-whiteGov-400: #CBD5E1; --color-whiteGov-500: #9AA3AF; --color-whiteGov-600: #6B7280; --color-whiteGov-700: #4B5563; --color-whiteGov-800: #374151; --color-whiteGov-900: #1F2937;
+  --color-neutral-50: #0B1220; --color-neutral-100: #121A2A; --color-neutral-200: #182233; --color-neutral-300: #1E2B3D; --color-neutral-400: #243347; --color-neutral-500: #2B3D53; --color-neutral-600: #5B6B84; --color-neutral-700: #9AA5B1; --color-neutral-800: #D0D6DC; --color-neutral-900: #F3F5F7;
+
+  /* aliases */
+  --color-brand: var(--color-purpleTeam-500);
+  --color-success: var(--color-greenSec-500);
+  --color-danger: var(--color-redTeam-500);
+  --color-warning: var(--color-orangeTrain-500);
+  --color-info: var(--color-blueTeam-500);
+  --color-caution: var(--color-yellowDev-600);
+  --color-gov: var(--color-whiteGov-500);
+}
+
+/* Semantic variables (light) */
+:root {
+  --red-500:#DC3D3D; --red-600:#C43131; --red-700:#A32828;
+  --blue-500:#4E7EE4; --blue-600:#3F66C4; --blue-700:#3552A3;
+  --purple-500:#6F5BD7; --purple-600:#5947BA; --purple-700:#453794;
+  --yellow-600:#B38713; --yellow-700:#8F6C0E;
+  --green-500:#199A5B; --green-600:#13824C; --green-700:#106A3F;
+  --orange-500:#E26D2A; --orange-600:#C45A22; --orange-700:#A1491B;
+  --gov-50:#FFFFFF; --gov-100:#FAFBFC; --gov-200:#F1F5F9; --gov-300:#E2E8F0; --gov-400:#CBD5E1; --gov-500:#9AA3AF; --gov-700:#4B5563; --gov-900:#1F2937;
+
+  --color-bg: var(--gov-50);
+  --color-fg: #0B1220;
+  --color-muted: var(--gov-500);
+  --color-border: var(--gov-300);
+  --color-card: #FFFFFF;
+  --color-popover: #FFFFFF;
+
+  --color-primary: var(--purple-600);
+  --color-primary-contrast: #FFFFFF;
+  --color-accent: var(--green-600);
+  --color-accent-contrast: #FFFFFF;
+  --color-danger: var(--red-600);
+  --color-danger-contrast: #FFFFFF;
+  --color-warning: var(--orange-600);
+  --color-warning-contrast: #FFFFFF;
+  --color-info: var(--blue-600);
+  --color-info-contrast: #FFFFFF;
+  --color-caution: var(--yellow-700);
+  --color-caution-contrast: #FFFFFF;
+  --focus-ring: var(--purple-500);
+}
+
+.dark {
+  --color-bg: #0B1220;
+  --color-fg: #E6EAF1;
+  --color-muted: #9AA5B1;
+  --color-border: #243347;
+  --color-card: #121A2A;
+  --color-popover: #121A2A;
+
+  --color-primary: var(--purple-500);
+  --color-primary-contrast: #FFFFFF;
+  --color-accent: var(--green-500);
+  --color-accent-contrast: #0A3E26;
+  --color-danger: var(--red-500);
+  --color-danger-contrast: #FFFFFF;
+  --color-warning: var(--orange-500);
+  --color-warning-contrast: #0B1220;
+  --color-info: var(--blue-500);
+  --color-info-contrast: #FFFFFF;
+  --color-caution: var(--yellow-600);
+  --color-caution-contrast: #0B1220;
+  --focus-ring: #947EEB;
+}
+
+/* Buttons, badges, alerts helpers based on tokens */
+.btn { border-radius: .5rem; font-weight: 600; }
+.btn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.badge { display:inline-flex; align-items:center; gap:.25rem; padding:.125rem .5rem; border-radius:.5rem; font-size:.75rem; font-weight:600; }
+.alert { border:1px solid var(--color-border); padding:1rem; border-radius:.75rem; }
+
+/* Token utility helpers */
+.surface-card { background-color: var(--color-card); border:1px solid var(--color-border); color: var(--color-fg); border-radius: .75rem; }
+.surface-popover { background-color: var(--color-popover); border:1px solid var(--color-border); color: var(--color-fg); border-radius: .75rem; }
+.text-muted { color: var(--color-muted); }
+.btn-primary { background: var(--color-primary); color: var(--color-primary-contrast); }
+.btn-primary:hover { background: color-mix(in srgb, var(--color-primary) 85%, #000 15%); }
+.btn-primary:active { background: color-mix(in srgb, var(--color-primary) 75%, #000 25%); }
+.btn-danger { background: var(--color-danger); color: var(--color-danger-contrast); }
+.btn-outline { background: transparent; color: var(--color-fg); border:1px solid var(--color-border); }
+
 @keyframes pulse-subtle {
   0%, 100% {
     opacity: 1;

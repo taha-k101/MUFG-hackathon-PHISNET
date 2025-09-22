@@ -129,13 +129,13 @@ function ReportCard({ report }: { report: any }) {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'threat-summary': return 'bg-red-100 text-red-700'
-      case 'phishing-analysis': return 'bg-blue-100 text-blue-700'
-      case 'deepfake-detection': return 'bg-purple-100 text-purple-700'
-      case 'green-it': return 'bg-green-100 text-green-700'
-      case 'compliance': return 'bg-yellow-100 text-yellow-700'
-      case 'performance': return 'bg-indigo-100 text-indigo-700'
-      default: return 'bg-gray-100 text-gray-700'
+      case 'threat-summary': return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+      case 'phishing-analysis': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+      case 'deepfake-detection': return 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
+      case 'green-it': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+      case 'compliance': return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300'
+      case 'performance': return 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300'
+      default: return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
     }
   }
 
@@ -146,7 +146,7 @@ function ReportCard({ report }: { report: any }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow"
+      className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow"
     >
       <div className="flex items-start justify-between">
         <div className="flex items-start space-x-4 flex-1">
@@ -156,18 +156,18 @@ function ReportCard({ report }: { report: any }) {
           
           <div className="flex-1">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-lg font-semibold text-gray-900">{report.title}</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{report.title}</h3>
               <div className="flex items-center space-x-3">
-                <span className="text-sm text-gray-500">{report.size}</span>
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                <span className="text-sm text-gray-500 dark:text-gray-400">{report.size}</span>
+                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   {report.format}
                 </span>
               </div>
             </div>
             
-            <p className="text-gray-600 mb-3">{report.description}</p>
+            <p className="text-gray-600 dark:text-gray-300 mb-3">{report.description}</p>
             
-            <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+            <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
               <div className="flex items-center space-x-1">
                 <CalendarIcon className="w-4 h-4" />
                 <span>{new Date(report.createdAt).toLocaleDateString()}</span>
@@ -181,7 +181,7 @@ function ReportCard({ report }: { report: any }) {
               {report.tags.map((tag: string) => (
                 <span 
                   key={tag}
-                  className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600"
+                  className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300"
                 >
                   {tag}
                 </span>
@@ -193,11 +193,11 @@ function ReportCard({ report }: { report: any }) {
         <div className="flex items-center space-x-2 ml-4">
           <button
             onClick={() => setExpanded(!expanded)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <EyeIcon className="w-5 h-5" />
           </button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
             <ArrowDownTrayIcon className="w-5 h-5" />
           </button>
         </div>
@@ -207,16 +207,16 @@ function ReportCard({ report }: { report: any }) {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="mt-4 pt-4 border-t border-gray-100"
+          className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700"
         >
-          <h4 className="font-medium text-gray-900 mb-3">Key Metrics</h4>
+          <h4 className="font-medium text-gray-900 dark:text-white mb-3">Key Metrics</h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Object.entries(report.stats).map(([key, value]) => (
-              <div key={key} className="bg-gray-50 rounded-lg p-3">
-                <p className="text-xs text-gray-600 uppercase tracking-wide">
+              <div key={key} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+                <p className="text-xs text-gray-600 dark:text-gray-300 uppercase tracking-wide">
                   {key.replace(/([A-Z])/g, ' $1').trim()}
                 </p>
-                <p className="text-lg font-bold text-gray-900">{String(value)}</p>
+                <p className="text-lg font-bold text-gray-900 dark:text-white">{String(value)}</p>
               </div>
             ))}
           </div>
@@ -250,8 +250,8 @@ export default function ReportsPage() {
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Reports</h1>
-            <p className="text-gray-600 mt-1">Loading...</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Reports</h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">Loading...</p>
           </div>
         </div>
       </div>
@@ -263,12 +263,12 @@ export default function ReportsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Security Reports</h1>
-          <p className="text-gray-600 mt-1">Generated reports and analytics for threat detection systems</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Security Reports</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Generated reports and analytics for threat detection systems</p>
         </div>
         
         <div className="flex items-center space-x-3">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+          <button className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors flex items-center space-x-2">
             <DocumentChartBarIcon className="w-5 h-5" />
             <span>Generate Report</span>
           </button>
@@ -290,16 +290,16 @@ export default function ReportsPage() {
               key={type.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer"
+              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow cursor-pointer"
               onClick={() => setSelectedType(selectedType === type.id ? 'all' : type.id)}
             >
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <TypeIcon className="w-5 h-5 text-blue-600" />
+                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <TypeIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900">{type.name}</h3>
-                  <p className="text-sm text-gray-600">{type.description}</p>
+                  <h3 className="font-medium text-gray-900 dark:text-white">{type.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{type.description}</p>
                 </div>
               </div>
             </motion.div>
@@ -308,7 +308,7 @@ export default function ReportsPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Search */}
           <div className="relative">
@@ -317,7 +317,7 @@ export default function ReportsPage() {
               placeholder="Search reports..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
@@ -326,7 +326,7 @@ export default function ReportsPage() {
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="all">All Report Types</option>
               {reportTypes.map(type => (
@@ -340,7 +340,7 @@ export default function ReportsPage() {
       {/* Reports List */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             Available Reports ({filteredReports.length})
           </h2>
           <div className="flex items-center space-x-2">
@@ -356,10 +356,10 @@ export default function ReportsPage() {
         ))}
 
         {filteredReports.length === 0 && (
-          <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-            <DocumentChartBarIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No reports found</h3>
-            <p className="text-gray-600">No reports match your current filters. Try adjusting your search criteria.</p>
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-12 text-center">
+            <DocumentChartBarIcon className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No reports found</h3>
+            <p className="text-gray-600 dark:text-gray-400">No reports match your current filters. Try adjusting your search criteria.</p>
           </div>
         )}
       </div>

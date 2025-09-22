@@ -14,41 +14,27 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'light',
 }: {
   children: React.ReactNode
-  defaultTheme?: Theme
 }) {
-  const [theme, setTheme] = useState<Theme>(defaultTheme)
+  const [theme, setTheme] = useState<Theme>('dark')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    // Check localStorage for saved theme
-    const savedTheme = localStorage.getItem('phisnet-theme') as Theme
-    if (savedTheme) {
-      setTheme(savedTheme)
-    } else {
-      // Check system preference
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-      setTheme(systemTheme)
-    }
+    // Force dark theme always
+    setTheme('dark')
   }, [])
 
   useEffect(() => {
     if (mounted) {
       // Apply theme to document
-      document.documentElement.classList.remove('light', 'dark')
-      document.documentElement.classList.add(theme)
-      
-      // Save to localStorage
-      localStorage.setItem('phisnet-theme', theme)
+      document.documentElement.classList.remove('light')
+      document.documentElement.classList.add('dark')
     }
   }, [theme, mounted])
 
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light')
-  }
+  const toggleTheme = () => setTheme('dark')
 
   // Prevent hydration mismatch
   if (!mounted) {

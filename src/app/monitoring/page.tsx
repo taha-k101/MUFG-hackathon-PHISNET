@@ -143,10 +143,10 @@ const alerts = [
 function SystemCard({ component }: { component: any }) {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'healthy': return 'bg-green-100 text-green-700 border-green-200'
-      case 'warning': return 'bg-yellow-100 text-yellow-700 border-yellow-200'
-      case 'critical': return 'bg-red-100 text-red-700 border-red-200'
-      default: return 'bg-gray-100 text-gray-700 border-gray-200'
+      case 'healthy': return 'bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800'
+      case 'warning': return 'bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-800'
+      case 'critical': return 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800'
+      default: return 'bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700'
     }
   }
 
@@ -176,16 +176,16 @@ function SystemCard({ component }: { component: any }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow"
+      className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow"
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-            <TypeIcon className="w-5 h-5 text-blue-600" />
+          <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+            <TypeIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">{component.name}</h3>
-            <p className="text-sm text-gray-600 capitalize">{component.type.replace('-', ' ')}</p>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{component.name}</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">{component.type.replace('-', ' ')}</p>
           </div>
         </div>
         
@@ -197,16 +197,16 @@ function SystemCard({ component }: { component: any }) {
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         {Object.entries(component.metrics).map(([key, value]) => (
-          <div key={key} className="bg-gray-50 rounded-lg p-3">
-            <p className="text-xs text-gray-600 uppercase tracking-wide mb-1">
+          <div key={key} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+            <p className="text-xs text-gray-600 dark:text-gray-300 uppercase tracking-wide mb-1">
               {key.replace(/([A-Z])/g, ' $1').trim()}
             </p>
-            <p className="text-lg font-bold text-gray-900">{String(value)}</p>
+            <p className="text-lg font-bold text-gray-900 dark:text-white">{String(value)}</p>
           </div>
         ))}
       </div>
 
-      <div className="flex items-center justify-between text-sm text-gray-500">
+      <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
         <div className="flex items-center space-x-1">
           <ClockIcon className="w-4 h-4" />
           <span>Last check: {component.lastCheck}</span>
@@ -220,10 +220,10 @@ function SystemCard({ component }: { component: any }) {
 function AlertCard({ alert }: { alert: any }) {
   const getLevelColor = (level: string) => {
     switch (level) {
-      case 'critical': return 'bg-red-50 border-red-200'
-      case 'warning': return 'bg-yellow-50 border-yellow-200'
-      case 'info': return 'bg-blue-50 border-blue-200'
-      default: return 'bg-gray-50 border-gray-200'
+      case 'critical': return 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800'
+      case 'warning': return 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800'
+      case 'info': return 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'
+      default: return 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
     }
   }
 
@@ -238,10 +238,10 @@ function AlertCard({ alert }: { alert: any }) {
 
   const getLevelBadgeColor = (level: string) => {
     switch (level) {
-      case 'critical': return 'bg-red-100 text-red-700'
-      case 'warning': return 'bg-yellow-100 text-yellow-700'
-      case 'info': return 'bg-blue-100 text-blue-700'
-      default: return 'bg-gray-100 text-gray-700'
+      case 'critical': return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+      case 'warning': return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300'
+      case 'info': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+      default: return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'
     }
   }
 
@@ -261,15 +261,15 @@ function AlertCard({ alert }: { alert: any }) {
               <span className={cn("inline-flex items-center px-2 py-1 rounded-full text-xs font-medium", getLevelBadgeColor(alert.level))}>
                 {alert.level.toUpperCase()}
               </span>
-              <span className="text-sm text-gray-600">{alert.component}</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">{alert.component}</span>
             </div>
-            <p className="text-gray-900 font-medium">{alert.message}</p>
-            <p className="text-sm text-gray-600 mt-1">{alert.timestamp}</p>
+            <p className="text-gray-900 dark:text-white font-medium">{alert.message}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{alert.timestamp}</p>
           </div>
         </div>
         
         {!alert.acknowledged && (
-          <button className="px-3 py-1 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+          <button className="px-3 py-1 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
             Acknowledge
           </button>
         )}
@@ -296,8 +296,8 @@ export default function MonitoringPage() {
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">System Monitoring</h1>
-            <p className="text-gray-600 mt-1">Loading...</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">System Monitoring</h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">Loading...</p>
           </div>
         </div>
       </div>
@@ -309,8 +309,8 @@ export default function MonitoringPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">System Monitoring</h1>
-          <p className="text-gray-600 mt-1">Real-time monitoring of PHISNET infrastructure and services</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">System Monitoring</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Real-time monitoring of PHISNET infrastructure and services</p>
         </div>
         
         <div className="flex items-center space-x-3">
@@ -323,62 +323,62 @@ export default function MonitoringPage() {
 
       {/* System Overview */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <CheckCircleIcon className="w-6 h-6 text-green-600" />
+            <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+              <CheckCircleIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Healthy</p>
-              <p className="text-2xl font-bold text-gray-900">{healthyCount}</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Healthy</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{healthyCount}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <ExclamationTriangleIcon className="w-6 h-6 text-yellow-600" />
+            <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
+              <ExclamationTriangleIcon className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Warning</p>
-              <p className="text-2xl font-bold text-gray-900">{warningCount}</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Warning</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{warningCount}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-              <XCircleIcon className="w-6 h-6 text-red-600" />
+            <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+              <XCircleIcon className="w-6 h-6 text-red-600 dark:text-red-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Critical</p>
-              <p className="text-2xl font-bold text-gray-900">{criticalCount}</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Critical</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{criticalCount}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <ServerIcon className="w-6 h-6 text-blue-600" />
+            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+              <ServerIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total Systems</p>
-              <p className="text-2xl font-bold text-gray-900">{systemComponents.length}</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Systems</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{systemComponents.length}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Alerts Section */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             Active Alerts ({unacknowledgedAlerts})
           </h2>
-          <button className="px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          <button className="px-3 py-2 text-sm bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
             View All Alerts
           </button>
         </div>
@@ -400,7 +400,7 @@ export default function MonitoringPage() {
 
       {/* System Components */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">System Components</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">System Components</h2>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {systemComponents.map(component => (

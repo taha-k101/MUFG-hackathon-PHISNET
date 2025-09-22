@@ -77,57 +77,57 @@ function ProfileSettings() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900">Profile Information</h3>
-        <p className="text-sm text-gray-600 mt-1">Update your personal details and preferences.</p>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Profile Information</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Update your personal details and preferences.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
           <input
             type="text"
             value={profile.name}
             onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
           <input
             type="email"
             value={profile.email}
             onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Role</label>
           <input
             type="text"
             value={profile.role}
             onChange={(e) => setProfile({ ...profile, role: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Department</label>
           <input
             type="text"
             value={profile.department}
             onChange={(e) => setProfile({ ...profile, department: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Timezone</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Timezone</label>
           <select
             value={profile.timezone}
             onChange={(e) => setProfile({ ...profile, timezone: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="UTC-8">Pacific Time (UTC-8)</option>
             <option value="UTC-5">Eastern Time (UTC-5)</option>
@@ -138,11 +138,11 @@ function ProfileSettings() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Language</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Language</label>
           <select
             value={profile.language}
             onChange={(e) => setProfile({ ...profile, language: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="English">English</option>
             <option value="Japanese">日本語</option>
@@ -154,7 +154,7 @@ function ProfileSettings() {
       </div>
 
       <div className="flex justify-end">
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        <button className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
           Save Changes
         </button>
       </div>
@@ -182,13 +182,13 @@ function NotificationSettings() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900">Notification Preferences</h3>
-        <p className="text-sm text-gray-600 mt-1">Choose what notifications you want to receive.</p>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Notification Preferences</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Choose what notifications you want to receive.</p>
       </div>
 
       <div className="space-y-4">
         <div>
-          <h4 className="font-medium text-gray-900 mb-3">Alert Types</h4>
+          <h4 className="font-medium text-gray-900 dark:text-white mb-3">Alert Types</h4>
           <div className="space-y-3">
             {[
               { key: 'threatAlerts', label: 'Threat Detection Alerts', desc: 'Immediate alerts for high-risk threats' },
@@ -198,10 +198,10 @@ function NotificationSettings() {
               { key: 'securityUpdates', label: 'Security Updates', desc: 'Important security patches and updates' },
               { key: 'maintenanceAlerts', label: 'Maintenance Alerts', desc: 'Scheduled maintenance notifications' },
             ].map(({ key, label, desc }) => (
-              <div key={key} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div key={key} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <div>
-                  <div className="font-medium text-gray-900">{label}</div>
-                  <div className="text-sm text-gray-600">{desc}</div>
+                  <div className="font-medium text-gray-900 dark:text-white">{label}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{desc}</div>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -218,17 +218,17 @@ function NotificationSettings() {
         </div>
 
         <div>
-          <h4 className="font-medium text-gray-900 mb-3">Delivery Methods</h4>
+          <h4 className="font-medium text-gray-900 dark:text-white mb-3">Delivery Methods</h4>
           <div className="space-y-3">
             {[
               { key: 'email', label: 'Email Notifications', desc: 'Receive notifications via email' },
               { key: 'push', label: 'Browser Push Notifications', desc: 'Desktop browser notifications' },
               { key: 'sms', label: 'SMS Alerts', desc: 'Text message alerts for critical threats' },
             ].map(({ key, label, desc }) => (
-              <div key={key} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div key={key} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <div>
-                  <div className="font-medium text-gray-900">{label}</div>
-                  <div className="text-sm text-gray-600">{desc}</div>
+                  <div className="font-medium text-gray-900 dark:text-white">{label}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{desc}</div>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -259,17 +259,17 @@ function SecuritySettings() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900">Security Settings</h3>
-        <p className="text-sm text-gray-600 mt-1">Configure security and authentication options.</p>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Security Settings</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Configure security and authentication options.</p>
       </div>
 
       <div className="space-y-6">
-        <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+        <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
           <div className="flex items-center space-x-3">
-            <LockClosedIcon className="w-5 h-5 text-gray-600" />
+            <LockClosedIcon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             <div>
-              <div className="font-medium text-gray-900">Two-Factor Authentication</div>
-              <div className="text-sm text-gray-600">Add an extra layer of security to your account</div>
+              <div className="font-medium text-gray-900 dark:text-white">Two-Factor Authentication</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Add an extra layer of security to your account</div>
             </div>
           </div>
           <div className="flex items-center space-x-3">
@@ -290,11 +290,11 @@ function SecuritySettings() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Session Timeout (minutes)</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Session Timeout (minutes)</label>
             <select
               value={security.sessionTimeout}
               onChange={(e) => setSecurity({ ...security, sessionTimeout: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="15">15 minutes</option>
               <option value="30">30 minutes</option>
@@ -305,11 +305,11 @@ function SecuritySettings() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Password Expiry (days)</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password Expiry (days)</label>
             <select
               value={security.passwordExpiry}
               onChange={(e) => setSecurity({ ...security, passwordExpiry: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="30">30 days</option>
               <option value="60">60 days</option>
@@ -321,12 +321,12 @@ function SecuritySettings() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+        <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
           <div className="flex items-center space-x-3">
-            <BellIcon className="w-5 h-5 text-gray-600" />
+            <BellIcon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             <div>
-              <div className="font-medium text-gray-900">Login Notifications</div>
-              <div className="text-sm text-gray-600">Get notified of login attempts</div>
+              <div className="font-medium text-gray-900 dark:text-white">Login Notifications</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Get notified of login attempts</div>
             </div>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
@@ -340,12 +340,12 @@ function SecuritySettings() {
           </label>
         </div>
 
-        <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+        <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
           <div className="flex items-start space-x-2">
-            <ExclamationTriangleIcon className="w-5 h-5 text-yellow-600 mt-0.5" />
+            <ExclamationTriangleIcon className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" />
             <div>
-              <div className="font-medium text-yellow-800">Password Policy</div>
-              <div className="text-sm text-yellow-700 mt-1">
+              <div className="font-medium text-yellow-800 dark:text-yellow-300">Password Policy</div>
+              <div className="text-sm text-yellow-700 dark:text-yellow-300/90 mt-1">
                 Passwords must be at least 12 characters long and include uppercase, lowercase, numbers, and special characters.
               </div>
             </div>
@@ -368,13 +368,13 @@ function AnalysisSettings() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900">Analysis Configuration</h3>
-        <p className="text-sm text-gray-600 mt-1">Configure AI models and detection parameters.</p>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Analysis Configuration</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Configure AI models and detection parameters.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Confidence Threshold ({analysis.confidenceThreshold}%)
           </label>
           <input
@@ -385,18 +385,18 @@ function AnalysisSettings() {
             onChange={(e) => setAnalysis({ ...analysis, confidenceThreshold: e.target.value })}
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
           />
-          <div className="flex justify-between text-xs text-gray-500 mt-1">
+          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
             <span>Less Strict</span>
             <span>More Strict</span>
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Data Retention (days)</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Data Retention (days)</label>
           <select
             value={analysis.retentionPeriod}
             onChange={(e) => setAnalysis({ ...analysis, retentionPeriod: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="30">30 days</option>
             <option value="60">60 days</option>
@@ -428,12 +428,12 @@ function AnalysisSettings() {
             icon: DocumentTextIcon,
           },
         ].map(({ key, label, desc, icon: Icon }) => (
-          <div key={key} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+          <div key={key} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
             <div className="flex items-center space-x-3">
-              <Icon className="w-5 h-5 text-gray-600" />
+              <Icon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
               <div>
-                <div className="font-medium text-gray-900">{label}</div>
-                <div className="text-sm text-gray-600">{desc}</div>
+                <div className="font-medium text-gray-900 dark:text-white">{label}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{desc}</div>
               </div>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -475,8 +475,8 @@ export default function SettingsPage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-          <p className="text-gray-600 mt-1">Manage your account preferences and system configuration</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Manage your account preferences and system configuration</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -490,14 +490,14 @@ export default function SettingsPage() {
                   className={cn(
                     'w-full flex items-center space-x-3 px-3 py-2 text-left rounded-lg transition-colors',
                     activeSection === section.id
-                      ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-700'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-l-4 border-blue-700 dark:border-blue-500'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
                   )}
                 >
                   <section.icon className="w-5 h-5" />
                   <div>
                     <div className="font-medium">{section.title}</div>
-                    <div className="text-xs text-gray-500">{section.description}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">{section.description}</div>
                   </div>
                 </button>
               ))}
@@ -511,7 +511,7 @@ export default function SettingsPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="bg-white rounded-lg border border-gray-200 p-6"
+              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
             >
               {renderSection()}
             </motion.div>

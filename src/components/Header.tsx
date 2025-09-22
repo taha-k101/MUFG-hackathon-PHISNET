@@ -58,8 +58,7 @@ export default function Header({ onMenuClick, title = "Dashboard" }: HeaderProps
             />
           </div>
 
-          {/* Theme Toggle */}
-          <ThemeToggle />
+          {/* Theme Toggle removed to enforce dark-only */}
 
           {/* Notifications */}
           <div className="relative">
